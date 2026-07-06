@@ -1,27 +1,24 @@
 <?php
 require_once 'config/config.php';
-//Capturar la ruta actual
-$currentPageUrl = $_SERVER['REQUEST_URI'];
-//echo $currentPageUrl;
-//Verificar si existe la ruta admin
-$isAdmin = strpos($currentPageUrl, "/" . ADMIN) !== false;
-//verificar la ruta principal
-$ruta = empty($_GET['url']) ? 'principal/index' : $_GET['url'];
-//crear un array a partir de la ruta
+
+// Capturar la ruta actual
+$currentPageUrl = trim($_SERVER['REQUEST_URI'], '/');
+
+// Si hay query string, eliminarla
+$currentPageUrl = explode('?', $currentPageUrl)[0];
+
+// Si está vacío, usar ruta por defecto
+$ruta = empty($currentPageUrl) ? 'principal/index' : $currentPageUrl;
 $array = explode('/', $ruta);
 
-//validar si nos encontramos en la ruta admin
-if (
-  $isAdmin && (count($array) == 1 || (count($array) === 2 && empty($array[2]))) &&
-  $array[1] == ADMIN
-) {
-  $controlador = "admin";
-  $metodo = "login";
+// Caso especial: /admin
+if ($array[0] === ADMIN) {
+    $controlador = "Admin";
+    $metodo = isset($array[1]) ? $array[1] : "login";
 } else {
-  $indiceUrl = ($isAdmin) ? 1 : 0;
-  $controlador = ucfirst($array[$indiceUrl]);
-  $metodo = "index";
-  }
+    $controlador = ucfirst($array[0]);
+    $metodo = isset($array[1]) ? $array[1] : "index";
+}
 
-  echo "controller : ".$controlador."<br>";
-  echo "metodo : ".$metodo; 
+echo "controller : " . $controlador . "<br>";
+echo "metodo : " . $metodo;
