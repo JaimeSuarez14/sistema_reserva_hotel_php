@@ -2,10 +2,11 @@
 
 class Controller {
 
-  protected $model;
+  protected $model, $view;
 
   public function __construct()
   {
+    $this->view = new Views();
     $this->cargarModel();
   }
 
@@ -20,3 +21,5 @@ class Controller {
     }
   }
 }
+
+?>

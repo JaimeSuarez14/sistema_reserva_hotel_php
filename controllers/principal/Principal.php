@@ -9,7 +9,8 @@ class Principal extends Controller{
 
   function index(){
     $mensaje = $this->model->getPrueba();
-    echo "Desde el principal...". $mensaje;
-  }
+    $this->view->getView('principal', 'index');
+  
+    }
 }
 ?>
