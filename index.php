@@ -8,7 +8,7 @@ $currentPageUrl = trim($_SERVER['REQUEST_URI'], '/');
 $currentPageUrl = explode('?', $currentPageUrl)[0];
 
 // Si está vacío, usar ruta por defecto
-$ruta = empty($currentPageUrl) ? 'principal/index' : $currentPageUrl;
+$ruta = empty($currentPageUrl) ? 'home/principal/index' : $currentPageUrl;
 $array = explode('/', $ruta);
 $isAdmin = isset($array[1]) && $array[1] === ADMIN;
 
@@ -43,7 +43,8 @@ if (!empty($array[$parametroIndice]) && $array[$parametroIndice] != '') {
   echo $parametro;
 }
 
-
+//LLAMA AUTOLOAD
+require_once 'config/app/Autoload.php';
 
 $dirController = ($isAdmin) ? 'controllers/admin/' . $controlador . ".php" : 'controllers/principal/' . $controlador . ".php";
 if (file_exists($dirController)) {
